@@ -1,0 +1,3 @@
+#index:
+ #   path: /teacher
+  #  controller: App\Controller\TeacherController::index
