@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class TeacherController extends AbstractController
 {
@@ -14,5 +15,10 @@ class TeacherController extends AbstractController
 
     public function showTeacher($name,$id){
         return new Response('Bonjour'.$name.' '.$id);
+    }
+
+    #[Route('/testpath',name:'app_test')]
+    public function  test (){
+        return new Response ('tesssssssst');
     }
 }
