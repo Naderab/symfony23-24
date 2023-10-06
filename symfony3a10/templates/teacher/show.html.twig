@@ -1,0 +1,27 @@
+<h1>Page show works ! </h1>
+{{t}}
+
+{% if tt is empty%}
+<p>No element</p>
+{%else%}
+<table>
+<tr>
+    <td>ID</td>
+    <td>NAME</td>
+    <td>Number of classes </td>
+</tr>
+{% for teacher in tt%}
+<tr>
+    <td>{{teacher.id}}</td>
+    <td>{{teacher.name|upper}}</td>
+    <td>{{teacher.nb_class}}</td>
+</tr>
+{%endfor%}
+</table>
+{%endif%}
+{% set name='qdkhgdkjfgkjdgfhq' %}
+<a href="{{path('show_teacher',{'name':name})}}">Vers la page d'accueil</a>
+<img src="/images/image.jpg">
+<img src="{{asset('/images/image.jpg')}}">
+{#<script src="/js/file.js"></script>
+<link href="/css/file.css">#}
