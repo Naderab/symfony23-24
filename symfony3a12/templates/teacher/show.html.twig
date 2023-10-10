@@ -1,0 +1,40 @@
+<h1>Page Show works !</h1>
+<p>{{t}}</p>
+
+{% if tt|length != 0 %}
+{% set total=0 %}
+<table>
+    <tr>
+        <td>ID</td>
+        <td>NAME</td>
+        <td>SALAIRE</td>
+    </tr>
+    {% for element in tt %}
+    {% set total= total + element.salaire %}
+        <tr>
+            <td>{{element.id}}</td>
+            <td>{{element.name | upper}}</td>
+            <td>{{element.salaire}}</td>
+            <td><a href="{{path('app_details',{'id':element.id})}}">Details</td>
+        </tr>
+    {%endfor%}
+</table>
+{% else %}
+<p> Pas d'element </p>
+{% endif %}
+
+{% if tt is empty %}<p>
+  Pas d'element
+</p>
+{%endif%}
+
+{% if 5 not in [1,2,3,5] %}
+5 non present
+{% endif %}
+<br>
+Somme des salaires : {{total}}
+
+<img src="/images/image.jpg" width="300" height="200">
+<!-- <link rel='stylesheet' href='/css/'>
+<script src="/js/">-->
+
