@@ -16,13 +16,15 @@ final class Version20231009101549 extends AbstractMigration
     {
         return '';
     }
-
+    
+    // php bin/console doctrine:migrations:migrate
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE author ADD nb_class INT DEFAULT NULL');
     }
 
+    // php bin/console doctrine:migrations:migrate prev
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
