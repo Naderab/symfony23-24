@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AuthorRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AuthorRepository::class)]
@@ -18,6 +20,17 @@ class Author
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $email = null;
+
+    #[ORM\OneToMany(mappedBy: 'idAuthor', targetEntity: Book::class)]
+    private Collection $books;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $nb_books = null;
+
+    public function __construct()
+    {
+        $this->books = new ArrayCollection();
+    }
 
     
 
@@ -46,6 +59,48 @@ class Author
     public function setEmail(?string $email): static
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Book>
+     */
+    public function getBooks(): Collection
+    {
+        return $this->books;
+    }
+
+    public function addBook(Book $book): static
+    {
+        if (!$this->books->contains($book)) {
+            $this->books->add($book);
+            $book->setIdAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBook(Book $book): static
+    {
+        if ($this->books->removeElement($book)) {
+            // set the owning side to null (unless already changed)
+            if ($book->getIdAuthor() === $this) {
+                $book->setIdAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getNbBooks(): ?int
+    {
+        return $this->nb_books;
+    }
+
+    public function setNbBooks(?int $nb_books): static
+    {
+        $this->nb_books = $nb_books;
 
         return $this;
     }
