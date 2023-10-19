@@ -10,6 +10,9 @@
 <td>{{author.id}}</td>
 <td>{{author.username}}</td>
 <td>{{author.email}}</td>
+<td><a href="{{path('app_update_by_id',{'id':author.id})}}">Update</a></td>
+<td><a href="{{path('app_delete_by_id',{'id':author.id})}}">Delete</a></td>
+
 </tr>
 {% endfor %}
 </table>

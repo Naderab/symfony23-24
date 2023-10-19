@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Author;
+use App\Form\AuthorType;
 use App\Repository\AuthorRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -41,11 +44,31 @@ class AuthorController extends AbstractController
         return $this->redirectToRoute('app_getall');
     }
     #[Route('/author/update/{id}',name:'app_update_by_id')]
-    public function updateAuthor($id,ManagerRegistry $manager,AuthorRepository $repo){
+    public function updateAuthor($id,ManagerRegistry $manager,AuthorRepository $repo,Request $req){
         $author = $repo->find($id);
-        $author->setUsername('test update');
-        $manager->getManager()->flush();
-        return $this->redirectToRoute('app_getall');
-
+        $form = $this->createForm(AuthorType::class,$author);
+        $form->handleRequest($req);
+        if($form->isSubmitted())
+        {
+            $manager->getManager()->persist($author);
+            $manager->getManager()->flush();
+            return $this->redirectToRoute('app_getall');
+        }
+        return $this->renderForm('author/add.html.twig',['f'=>$form]);
     }
+
+    #[Route('author/add',name:'app_author_add')]
+    public function addAuthor(ManagerRegistry $manager,Request $req){
+        $author= new Author();
+        $form = $this->createForm(AuthorType::class,$author);
+        $form->handleRequest($req);
+        if($form->isSubmitted())
+        {
+            $manager->getManager()->persist($author);
+            $manager->getManager()->flush();
+            return $this->redirectToRoute('app_getall');
+        }
+        return $this->renderForm('author/add.html.twig',['f'=>$form]);
+    }
+   
 }

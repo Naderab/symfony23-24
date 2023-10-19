@@ -9,12 +9,27 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+   <table>
+        <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Date de publication</th>
+            <th>Author</th>
+            <th>Published</th>
+                <th>Actions</th>
+        </tr>
+        {% for b in books %}
+            <tr>
+                <td>{{ b.title }}</td>
+                <td>{{b.category}}</td>
+                <td>{{b.datePublication|date}}</td>
+                <td>{{b.idAuthor.username}}</td>
+                <td>{{b.published}}</td>
+                <td><a href={{path('app_book_update',{'id':b.id})}}>Update</a></td>
+                <td><a href={{path('app_book_delete',{'id':b.id})}}>Delete</a></td>
+            </tr>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'D:/2023-2024/Semestre1/TW2.0/projects/symfony3a10/src/Controller/BookController.php'|file_link(0) }}">src/Controller/BookController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'D:/2023-2024/Semestre1/TW2.0/projects/symfony3a10/templates/book/index.html.twig'|file_link(0) }}">templates/book/index.html.twig</a></code></li>
-    </ul>
+    {% endfor  %}
+   </table>
 </div>
 {% endblock %}
