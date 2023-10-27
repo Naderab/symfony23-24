@@ -61,12 +61,12 @@ class Author
         return $this;
     }
 
-    public function getNbClass(): ?int
+    public function getnb_class(): ?int
     {
         return $this->nb_class;
     }
 
-    public function setNbClass(?int $nb_class): static
+    public function setnb_class(?int $nb_class): static
     {
         $this->nb_class = $nb_class;
 
