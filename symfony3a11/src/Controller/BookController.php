@@ -52,6 +52,7 @@ class BookController extends AbstractController
     #[Route('/book/update/{ref}',name:'app_update_book')]
     public function update(BookRepository $rep,$ref,Request $req,ManagerRegistry $manager){
         $book = $rep->find($ref);
+        //test test
         $form = $this->createForm(BookType::class,$book);
         $form->handleRequest($req);
         if($form->isSubmitted()){
