@@ -1,3 +1,4 @@
+{{form(f)}}
 <table>
 <tr>
 <td>ref</td>
@@ -7,6 +8,54 @@
 <td>author</td>    
 </tr>
 {% for a in books %}
+<tr>
+    <td>{{ a.ref }}</td>
+    <td>{{ a.title }}</td>    
+    <td>{{ a.category }}</td>
+    <td>{{ a.publicationDate | date}}</td>
+    <td>{{ a.author.username }}</td>    
+    <td><a href="{{path('app_delete_book',{'id':a.ref})}}">Delete</a></td>
+    <td><a href="{{path('app_update_book',{'ref':a.ref})}}">Update</a></td>
+    
+    </tr>
+{% endfor %}
+</table>
+
+<h1>Liste Ordred By Publication Date </h1>
+<table>
+<tr>
+<td>ref</td>
+<td>title</td>
+<td>category</td>
+<td>publicationDate</td>
+<td>author</td>    
+</tr>
+{% for a in b %}
+<tr>
+    <td>{{ a.ref }}</td>
+    <td>{{ a.title }}</td>    
+    <td>{{ a.category }}</td>
+    <td>{{ a.publicationDate | date}}</td>
+    <td>{{ a.author.username }}</td>    
+    <td><a href="{{path('app_delete_book',{'id':a.ref})}}">Delete</a></td>
+    <td><a href="{{path('app_update_book',{'ref':a.ref})}}">Update</a></td>
+    
+    </tr>
+{% endfor %}
+</table>
+
+<h1>Nombre books by Category : {{nb}}<h1>
+
+    <h1>Liste Books By Publication Date </h1>
+<table>
+<tr>
+<td>ref</td>
+<td>title</td>
+<td>category</td>
+<td>publicationDate</td>
+<td>author</td>    
+</tr>
+{% for a in booksBypubDate %}
 <tr>
     <td>{{ a.ref }}</td>
     <td>{{ a.title }}</td>    

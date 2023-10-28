@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use App\Form\BookType;
+use App\Form\SearchTitleType;
 use App\Repository\BookRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,10 +15,33 @@ use Symfony\Component\Routing\Annotation\Route;
 class BookController extends AbstractController
 {
    #[Route('/book/get/all',name:'app_get_all_book')]
-    public function getAll(BookRepository $repo){
+    public function getAll(Request $req,BookRepository $repo){
         $books = $repo->findAll();
+        $bOrdred = $repo->getBooksOrdredByPublicationDate();
+        $nb = $repo->getNbBooksByCategory('history');
+        $booksBypubDate = $repo->getBookByPublicationDate('2018-12-01','2022-02-01');
+        $form = $this->createForm(SearchTitleType::class);
+        $form->handleRequest($req);
+        if($form->isSubmitted()){
+            $search = $form->getData('searchTitle');
+            // var_dump($search['searchTitle']);
+            // die();
+            $books = $repo->getBooksByTitle($search['searchTitle']);
+            return $this->render('book/index.html.twig',[
+            'books'=>$books,
+            'b'=>$bOrdred,
+            'f'=>$form->createView(),
+            'nb'=>$nb,
+            'booksBypubDate'=>$booksBypubDate
+        ]);
+        }
         return $this->render('book/index.html.twig',[
-            'books'=>$books
+            'books'=>$books,
+            'b'=>$bOrdred,
+            'f'=>$form->createView(),
+            'nb'=>$nb,
+            'booksBypubDate'=>$booksBypubDate
+
         ]);
     }
 
@@ -33,7 +57,7 @@ class BookController extends AbstractController
         $author->setnb_class($author->getnb_class()+1);
         $manager->getManager()->persist($book);
         $manager->getManager()->flush();
-        return $this->redirectToRoute('app_book');
+        return $this->redirectToRoute('app_get_all_book');
         }
         return $this->render('book/add.html.twig',[
             'f'=>$form->createView()
