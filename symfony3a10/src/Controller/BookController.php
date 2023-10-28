@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use App\Form\BookType;
+use App\Form\SearchBookType;
 use App\Repository\BookRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,11 +15,27 @@ use Symfony\Component\Routing\Annotation\Route;
 class BookController extends AbstractController
 {
     #[Route('/book/getall', name: 'app_book_all')]
-    public function index(BookRepository $repo): Response
+    public function index(Request $req,BookRepository $repo): Response
     {
         $books = $repo->findAll();
+                $booksordred = $repo->getBooksOrdredByTitle();
+
+        $form = $this->createForm(SearchBookType::class);
+        $form->handleRequest($req);
+        if($form->isSubmitted()){
+            $searchText = $form->getData('searchData');
+            $books = $repo->searchByTitle($searchText);
+            return $this->render('book/index.html.twig', [
+            'books' => $books,
+            'booksO' => $booksordred,
+            'f'=>$form->createView()
+        ]);
+        }
         return $this->render('book/index.html.twig', [
             'books' => $books,
+            'booksO' => $booksordred,
+            'f'=>$form->createView()
+
         ]);
     }
 

@@ -9,6 +9,7 @@
 </style>
 
 <div class="example-wrapper">
+{{form(f)}}
 {% set nbpublished =0 %}
 {% set nbnot =0 %}
 {% if books is empty %}
@@ -48,4 +49,29 @@
     nb of books inpublished :
     {{nbnot}}
 </div>
+
+
+<h1>Books Ordred</h1>
+<table>
+        <tr>
+            <th>Title</th>
+            <th>Category</th>
+<th>Date de publication</th>
+            <th>Author</th>
+            <th>Published</th>
+                <th>Actions</th>
+        </tr>
+
+        {% for b in booksO %}
+            <tr>
+                <td>{{ b.title }}</td>
+                <td>{{b.category}}</td>
+                <td>{{b.datePublication|date}}</td>
+                <td>{{b.idAuthor.username}}</td>
+                <td>{{b.published}}</td>
+      <td><a href={{path('app_book_update',{'id':b.id})}}>Update</a></td>
+                <td><a href={{path('app_book_delete',{'id':b.id})}}>Delete</a></td>
+            </tr>
+    {% endfor %}
+   </table>
 {% endblock %}

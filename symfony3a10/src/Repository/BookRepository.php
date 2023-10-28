@@ -45,4 +45,18 @@ class BookRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+public function getBooksOrdredByTitle(){
+    return $this->createQueryBuilder('b')
+        ->orderBy('b.title', 'ASC')
+        ->getQuery()
+        ->getResult();
+}
+
+public function searchByTitle($searchText){
+    $manager = $this->getEntityManager();
+    $query = $manager->createQuery('Select b from App\Entity\Book b where b.title LIKE :s')
+    ->setParameter('s', $searchText);
+    return $query->getResult();
+}
 }
