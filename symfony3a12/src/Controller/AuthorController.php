@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Author;
+use App\Form\AuthorSearchType;
 use App\Form\FormAuthorType;
 use App\Repository\AuthorRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -15,11 +16,25 @@ use Symfony\Component\Routing\Annotation\Route;
 class AuthorController extends AbstractController
 {
     #[Route('/author', name: 'app_author')]
-    public function index(AuthorRepository $repo): Response
+    public function index(Request $req,AuthorRepository $repo): Response
     {
         $authors = $repo->findAll();
+        $authorsOrdred = $repo->getAuthorsOrderedByEmail();
+        $form = $this->createForm(AuthorSearchType::class);
+        $form->handleRequest($req);
+        if($form->isSubmitted()){
+            $searchText = $form->getData('input');
+            $authors = $repo->getAuthorsByUsername($searchText);
+            return $this->render('author/index.html.twig', [
+            'authors' => $authors,
+            'authorsOrdred'=>$authorsOrdred,
+            'f'=>$form->createView()
+        ]);
+        }
         return $this->render('author/index.html.twig', [
             'authors' => $authors,
+            'authorsOrdred'=>$authorsOrdred,
+            'f'=>$form->createView()
         ]);
     }
     // #[Route('/author/add', name: 'app_author_add')]

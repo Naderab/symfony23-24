@@ -65,4 +65,12 @@ class BookController extends AbstractController
                 return $this->redirectToRoute('app_book');
 
     }
+
+    #[Route('/details/{id}', name: 'app_author_details')]
+    public function getBooksByAuthor($id,BookRepository $repo){
+            $books = $repo->getBooksByAuthor($id);
+            return $this->render('book/index.html.twig', [
+            'books' => $books,
+        ]);
+    }
 }

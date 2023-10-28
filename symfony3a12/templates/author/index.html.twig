@@ -9,8 +9,25 @@
 </style>
 
 <div class="example-wrapper">
+{{form(f)}}
 <table>
 {% for a in authors %}
+<tr>
+<td>{{a.id}}</td>
+<td>{{a.username}}</td>
+<td>{{a.email}}</td>
+    <td>{{a.NbBooks}}</td>
+<td><a href={{path('app_author_delete',{id:a.id})}}>delete</a></td>
+<td><a href={{path('app_author_update',{id:a.id})}}>Update</a></td>
+<td><a href={{path('app_author_details',{id:a.id})}}>Books List</a></td>
+
+</tr>
+{% endfor %}
+</table>
+
+<h1>Ordred List</h1>
+<table>
+{% for a in authorsOrdred %}
 <tr>
 <td>{{a.id}}</td>
 <td>{{a.username}}</td>
